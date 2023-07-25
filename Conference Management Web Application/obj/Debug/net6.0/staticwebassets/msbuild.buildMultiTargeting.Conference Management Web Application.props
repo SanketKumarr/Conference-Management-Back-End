@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Conference Management Web Application.props" />
+</Project>
