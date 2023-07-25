@@ -4,6 +4,12 @@
 
 - Application
 	- LoginController
+        * SignUp
+        * Login
+    
+    - AdminController
+        * Delete
+        * Update
 	
 - Infrastructure
 	
