@@ -1,27 +1,27 @@
 - Domain
 	- Model
-		- Employee.cs
-        
+		- User.cs
+
 - Application
-	- EmployeeController.cs
+	- LoginController
 	
 - Infrastructure
 	
 	- Commands {IRequest}
-		- AddEmployeeCommand.cs
-		- UpdateEmployeeCommand.cs
-		- DeleteEmployeeCommand.cs
+		- AddUserCommand.cs
+		- UpdateUserCommand.cs
+		- DeleteUserCommand.cs
 		
 	- Queries {IRequest}
-		- GetAllEmployeesQuery.cs
-		- GetEmployeeByIdQuery.cs
+		- GetAllUsersQuery.cs
+		- GetUserByIdQuery.cs
 		
 	- Handlers {IRequestHandler}
-		- AddEmployeeCommandHandler.cs
-		- UpdateEmployeeCommandHandler.cs
-		- DeleteEmployeeCommandHandler.cs 
-		- GetEmployeesQueryHandler.cs
-		- GetEmployeeByIdQueryHandler.cs
+		- AddUserCommandHandler.cs
+		- UpdateUserCommandHandler.cs
+		- DeleteUserCommandHandler.cs 
+		- GetUsersQueryHandler.cs
+		- GetUserByIdQueryHandler.cs
 
 - Business
 	- Interfaces
