@@ -10,6 +10,7 @@
     - AdminController
         * Delete
         * Update
+        * Get
 	
 - Infrastructure
 	
