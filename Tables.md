@@ -20,9 +20,8 @@
 - Booking_Id => int
 - Request_Id => string => Guid
 - User_Id => int
-- Hall_Name => string
 - Hall_No => int
 - Hall_Name => int
 - Date => DateTime
 - TimeSlot => DateTime
-- Status => stringb
+- Status => string
