@@ -4,8 +4,7 @@ namespace ConferenceManagement.Model
 {
     public class User
     {
-        public int UserId { get; set; }
-
+        public int User_Id { get; set; }
 
 
         [Required(ErrorMessage = "Name is required.")]

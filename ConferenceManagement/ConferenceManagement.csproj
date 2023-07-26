@@ -15,9 +15,7 @@
 
   <ItemGroup>
     <Folder Include="Handlers\AdminHandlers\" />
-    <Folder Include="Handlers\UserHandlers\" />
     <Folder Include="Infrastructure\Commands\AdminCommands\" />
-    <Folder Include="Infrastructure\Commands\UserCommands\" />
     <Folder Include="Infrastructure\Queries\AdminQueries\" />
     <Folder Include="Infrastructure\Queries\UserQueries\" />
   </ItemGroup>
