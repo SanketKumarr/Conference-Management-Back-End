@@ -71,6 +71,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(option => option.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
 app.UseSession();
 app.Use(async (context, next) =>
 {

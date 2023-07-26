@@ -1468,11 +1468,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Github Hosting\\Conference-Management\\ConferenceManagement\\ConferenceManagement.csproj",
+      "projectUniqueName": "E:\\Hosting\\Conference-Management\\ConferenceManagement\\ConferenceManagement.csproj",
       "projectName": "ConferenceManagement",
-      "projectPath": "E:\\Github Hosting\\Conference-Management\\ConferenceManagement\\ConferenceManagement.csproj",
+      "projectPath": "E:\\Hosting\\Conference-Management\\ConferenceManagement\\ConferenceManagement.csproj",
       "packagesPath": "C:\\Users\\ashish.sahu\\.nuget\\packages\\",
-      "outputPath": "E:\\Github Hosting\\Conference-Management\\ConferenceManagement\\obj\\",
+      "outputPath": "E:\\Hosting\\Conference-Management\\ConferenceManagement\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ashish.sahu\\AppData\\Roaming\\NuGet\\NuGet.Config",
