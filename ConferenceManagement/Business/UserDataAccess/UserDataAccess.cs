@@ -81,5 +81,17 @@ namespace ConferenceManagement.Business.UserDataAccess
                 return false;
             }
         }
+
+        public async Task<List<ConferenceRoom>> DisplayAllRoom()
+        {
+            using (var dbConnection = _dbContext.CreateConnection())
+            {
+                dbConnection.Open();
+                string sQuery = "SELECT * FROM ConferenceRoom";
+                List<ConferenceRoom> AllConferenceRooms = (await dbConnection.QueryAsync<ConferenceRoom>(sQuery)).ToList();
+                dbConnection.Close();
+                return AllConferenceRooms;
+            }
+        }
     }
 }

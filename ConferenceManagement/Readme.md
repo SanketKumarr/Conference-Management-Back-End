@@ -1,12 +1,12 @@
-﻿  - Commands {IRequest}
-    - GetAllUsersQuery
-    - DeleteUserCommand
+﻿- Commands {IRequest}
+    - AddHallCommand
+    - UpdateHallCommand
+    - DeleteRoomCommand
 
   - Queries {IRequest}
-    - GetAllUserQuery
+    - DisplayAllRoomQuery
   
-
-  - Handlers {IRequestHandler}
-    - GetAllUsersQueryHandler
-    - DeleteUserCommandHandler
-  
+- Handlers {IRequestHandler}
+    - AddHallCommandHandler
+    - UpdateRoomCommandHandler
+    - DeleteRoomCommandHandler

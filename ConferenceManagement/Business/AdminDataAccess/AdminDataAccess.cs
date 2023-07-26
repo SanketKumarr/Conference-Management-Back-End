@@ -58,7 +58,73 @@ namespace ConferenceManagement.Business.AdminDataAccess
                 dbConnection.Close();
                 return checkUser;
             }
-        } 
+        }
+        #endregion
+
+        #region Add Room
+        public async Task<bool> AddRoom(ConferenceRoom conferenceRoom)
+        {
+            using (IDbConnection dbConnection = _dbContext.CreateConnection())
+            {
+                dbConnection.Open();
+                string sQuery = "INSERT INTO ConferenceRoom (RoomName, Capacity, IsAVRoom, Image) VALUES (@RoomName, @Capacity, @IsAVRoom, @Image)";
+                int count = await dbConnection.ExecuteAsync(sQuery, new { conferenceRoom.RoomName, conferenceRoom.Capacity, conferenceRoom.IsAVRoom, conferenceRoom.Image });
+                if (count > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+        #endregion
+
+        #region Get Room By Id
+        public async Task<ConferenceRoom> GetRoomById(int roomId)
+        {
+            using (IDbConnection dbConnection = _dbContext.CreateConnection())
+            {
+                dbConnection.Open();
+                string sQuery = "SELECT * FROM ConferenceRoom WHERE RoomId = @RoomId";
+                ConferenceRoom CheckConferenceRoom = await dbConnection.QueryFirstOrDefaultAsync<ConferenceRoom>(sQuery, new { RoomId = roomId });
+                dbConnection.Close();
+                return CheckConferenceRoom;
+            }
+        }
+        #endregion
+
+
+        #region Update Room
+        public async Task<bool> UpdateRoom(ConferenceRoom conferenceRoom)
+        {
+            using (IDbConnection dbConnection = _dbContext.CreateConnection())
+            {
+                dbConnection.Open();
+                string sQuery = "UPDATE ConferenceRoom SET RoomName = @RoomName, Capacity = @Capacity, IsAVRoom = @IsAVRoom, Image = @Image  WHERE RoomId = @RoomId";
+                int count = await dbConnection.ExecuteAsync(sQuery, conferenceRoom);
+                if (count > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+        #endregion
+
+        #region Delete Room
+        public async Task<bool> DeleteRoom(int roomId)
+        {
+            using (IDbConnection dbConnection = _dbContext.CreateConnection())
+            {
+                dbConnection.Open();
+                string sQuery = "DELETE FROM ConferenceRoom WHERE RoomId = @RoomId";
+                int count = await dbConnection.ExecuteAsync(sQuery, new { RoomId = roomId });
+                if (count > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
         #endregion
     }
 }

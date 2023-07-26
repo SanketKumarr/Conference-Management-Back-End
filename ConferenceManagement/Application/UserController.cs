@@ -1,4 +1,5 @@
 ﻿using ConferenceManagement.Infrastructure.Commands.UserCommands;
+using ConferenceManagement.Infrastructure.Queries.UserQueries;
 using ConferenceManagement.Model;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -18,6 +19,7 @@ namespace ConferenceManagement.Application
             _mediator = mediator;
         }
 
+        //Ashish
         //Add User
         #region Add User
         [Route("AddUser")]
@@ -29,6 +31,7 @@ namespace ConferenceManagement.Application
         }
         #endregion
 
+        //Ashish
         //Edit User
         [Authorize]
         [Route("EditUser")]
@@ -37,6 +40,16 @@ namespace ConferenceManagement.Application
         {
             bool UpdateEmployeeStatus = await _mediator.Send(new UpdateUserCommand(user_Id, user.Name, user.Email, user.Password, user.Designation));
             return Ok(UpdateEmployeeStatus);
+        }
+
+        //Ashish
+        //Display All Room
+        [Route("DisplayAllRoom")]
+        [HttpGet]
+        public async Task<IActionResult> DisplayAllRoom()
+        {
+            List<ConferenceRoom> AllConferenceRoom = await _mediator.Send(new DisplayAllRoomQuery());
+            return Ok(AllConferenceRoom);
         }
     }
 }
