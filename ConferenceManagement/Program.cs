@@ -1,5 +1,6 @@
 using ConferenceManagement.Business.AdminDataAccess;
 using ConferenceManagement.Business.UserDataAccess;
+using ConferenceManagement.Context;
 using MediatR;
 using System.Reflection;
 
@@ -18,7 +19,7 @@ builder.Services.AddScoped<IAdminDataAccess, AdminDataAccess>();
 
 builder.Services.AddScoped<IUserDataAccess, UserDataAccess>();
 
-
+builder.Services.AddScoped<DbContext>();
 
 builder.Services.AddCors();
 var app = builder.Build();
