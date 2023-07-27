@@ -1,5 +1,6 @@
 ﻿using ConferenceManagement.Infrastructure.Commands.AdminCommands;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -25,7 +26,11 @@ namespace ConferenceManagement.Business.Token
                 expires: DateTime.Now.AddMinutes(10),
                 signingCredentials: userSigningCredentials);
             var userSecurityTokenHandler = new JwtSecurityTokenHandler().WriteToken(userJwtSecurityToken);
-            return userSecurityTokenHandler;
+            string userJwtSecurityTokenHandler = JsonConvert.SerializeObject(new { Token = userSecurityTokenHandler });
+
+
+
+            return userJwtSecurityTokenHandler;
 
         }
 

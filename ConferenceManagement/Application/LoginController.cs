@@ -22,16 +22,16 @@ namespace ConferenceManagement.Application
         #region Login
         [Route("Login")]
         [HttpPost]
-        public async Task<string> Login(LoginUser loginUser)
+        public async Task<ActionResult> Login(LoginUser loginUser)
         {
             User user = await _mediator.Send(new LoginUserCommand() { Email = loginUser.Email, Password = loginUser.Password });
             if (user != null)
             {
                 string userToken = await _mediator.Send(new TokenGenerateCommand() { UserId = user.User_Id, Name = user.Name });
                 HttpContext.Session.SetString("Token", userToken);
-                return userToken;
+                return Ok(userToken);
             }
-            return "user Not exist";
+            return null;
         } 
         #endregion
 
