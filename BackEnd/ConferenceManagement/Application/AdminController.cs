@@ -33,20 +33,9 @@ namespace ConferenceManagement.Application
         [Authorize]
         public async Task<ActionResult> GetAllUser()
         {
-            string userToken = HttpContext.Session.GetString("Token");
-            if (userToken != null)
-            {
-                var userSecretKey = _configuration["JwtValidationParameters:UserSecretKey"];
-                var userIssuer = _configuration["JwtValidationParameters:UserIssuer"];
-                var userAudience = _configuration["JwtValidationParameters:UserAudience"];
-                bool isTokenValid = await _tokenGenerator.IsTokenValid(userSecretKey, userIssuer, userAudience, userToken);
-                if (isTokenValid)
-                {
-                    List<User> allUsser = await _mediator.Send(new GetAllUserCommand());
-                    return Ok(allUsser);
-                }
-            }
-            return null;
+            
+            List<User> allUsser = await _mediator.Send(new GetAllUserCommand());
+            return Ok(allUsser);
         }
 
         /// <summary>

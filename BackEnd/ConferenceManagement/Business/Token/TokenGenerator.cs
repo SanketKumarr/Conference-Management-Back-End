@@ -41,33 +41,7 @@ namespace ConferenceManagement.Business.Token
 
         }
 
-        public async Task<bool> IsTokenValid(string userSecretKey, string userIssuer, string userAudience, string userToken)
-        {
-            var userSecretKeyInBytes = Encoding.UTF8.GetBytes(userSecretKey);
-            var userSymmetricSecurityKey = new SymmetricSecurityKey(userSecretKeyInBytes);
-            var tokenValidationParameters = new TokenValidationParameters()
-            {
-                ValidateIssuer = true,
-                ValidIssuer = userIssuer,
-
-                ValidateAudience = true,
-                ValidAudience = userAudience,
-
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = userSymmetricSecurityKey,
-
-                ValidateLifetime = true
-            };
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            try
-            {
-                tokenHandler.ValidateToken(userToken, tokenValidationParameters, out SecurityToken securityToken);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+        
 
         }
     }
