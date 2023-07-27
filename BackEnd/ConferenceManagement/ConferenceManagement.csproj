@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Commands\UserCommands\" />
+    <Folder Include="Infrastructure\Queries\UserQueries\" />
   </ItemGroup>
 
 </Project>

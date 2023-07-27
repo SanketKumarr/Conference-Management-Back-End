@@ -16,24 +16,21 @@ namespace ConferenceManagement.Application
         {
             _mediator = mediator;
         }
-
-
-
-        #region Login
-        [Route("Login")]
+        //Mohit
         [HttpPost]
+        [Route("loginUser")]
         public async Task<ActionResult> Login(LoginUser loginUser)
         {
             User user = await _mediator.Send(new LoginUserCommand() { Email = loginUser.Email, Password = loginUser.Password });
-            if (user != null)
+            if ( user!=null)
             {
                 string userToken = await _mediator.Send(new TokenGenerateCommand() { UserId = user.User_Id, Name = user.Name });
                 HttpContext.Session.SetString("Token", userToken);
                 return Ok(userToken);
             }
             return null;
-        } 
-        #endregion
+
+        }
 
     }
 }

@@ -4,28 +4,28 @@ using ConferenceManagement.Infrastructure.Queries.AdminQueries;
 using ConferenceManagement.Model;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConferenceManagement.Application
 {
     [Route("api/[controller]")]
     [ApiController]
-
+    
     public class AdminController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IConfiguration _configuration;
         private readonly ITokenGenerator _tokenGenerator;
-        public AdminController(IMediator mediator, IConfiguration configuration, ITokenGenerator tokenGenerator)
+        public AdminController(IMediator mediator,IConfiguration configuration,ITokenGenerator tokenGenerator)
         {
             _mediator = mediator;
             _configuration = configuration;
             _tokenGenerator = tokenGenerator;
         }
-
-        #region GetAllUser
-        [Route("GetAllUser")]
+        //Mohit
         [HttpGet]
+        [Route("GetAllUser")]
         [Authorize]
         public async Task<ActionResult> GetAllUser()
         {
@@ -44,50 +44,15 @@ namespace ConferenceManagement.Application
             }
             return null;
 
-
+           
         }
-        #endregion
-
-
-        #region Delete User
-        [Route("Delete/{id}")]
+        //Mohit
         [HttpDelete]
-        public async Task<IActionResult> DeleteUser(int id)
+        [Route("DeleteRequest/{bookId:int}")]
+        public async Task<ActionResult> DeleteRequestByBookId(int bookId)
         {
-            bool DeleteUserStatus = await _mediator.Send(new DeleteUserCommand() { User_Id = id });
-            return Ok(DeleteUserStatus);
+            bool deleteStatus= await _mediator.Send(new DeleteRequestCommand() { BookId = bookId });
+            return Ok(deleteStatus);
         }
-        #endregion
-
-
-        #region Add Room
-        [Route("AddRoom")]
-        [HttpPost]
-        public async Task<IActionResult> AddRoom(ConferenceRoom conferenceRoom)
-        {
-            bool ConferenceRoomStatus = await _mediator.Send(new AddRoomCommand(conferenceRoom.RoomName, conferenceRoom.Capacity, conferenceRoom.IsAVRoom, conferenceRoom.Image));
-            return Ok(ConferenceRoomStatus);
-        }
-        #endregion
-
-        #region Update Room
-        [Route("UpdateRoom")]
-        [HttpPut]
-        public async Task<IActionResult> UpdateRoom(int roomId, ConferenceRoom conferenceRoom)
-        {
-            bool UpdateRoomStatus = await _mediator.Send(new UpdateRoomCommand(roomId, conferenceRoom.RoomName, conferenceRoom.Capacity, conferenceRoom.IsAVRoom, conferenceRoom.Image));
-            return Ok(UpdateRoomStatus);
-        }
-        #endregion
-
-        #region Delete Room
-        [Route("DeleteRoom")]
-        [HttpDelete]
-        public async Task<IActionResult> DeleteRoom(int roomId)
-        {
-            bool DeleteUserStatus = await _mediator.Send(new DeleteRoomCommand() { RoomId = roomId });
-            return Ok(DeleteUserStatus);
-        } 
-        #endregion
     }
 }
