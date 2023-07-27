@@ -25,12 +25,13 @@ namespace ConferenceManagement.Business.Token
                 claims: userClaims,
                 expires: DateTime.Now.AddMinutes(10),
                 signingCredentials: userSigningCredentials);
+            //var userSecurityTokenHandler = new JwtSecurityTokenHandler().WriteToken(userJwtSecurityToken);
+            //return userSecurityTokenHandler;
             var userSecurityTokenHandler = new JwtSecurityTokenHandler().WriteToken(userJwtSecurityToken);
             string userJwtSecurityTokenHandler = JsonConvert.SerializeObject(new { Token = userSecurityTokenHandler });
 
-
-
             return userJwtSecurityTokenHandler;
+
 
         }
 
