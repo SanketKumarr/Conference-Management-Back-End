@@ -41,5 +41,8 @@ namespace ConferenceManagement.Business.UserDataAccess
 
         //Add Contact
         Task<bool> AddContact(Contact contact);
+
+        //Room Notification
+        Task<List<BookRoom>> RoomNotification(int userId);
     }
 }

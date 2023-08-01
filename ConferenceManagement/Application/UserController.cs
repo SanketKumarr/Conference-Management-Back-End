@@ -134,6 +134,7 @@ namespace ConferenceManagement.Application
         }
         #endregion
 
+        #region Add Contact
         /// <summary>
         /// Mansi :- Add Contact
         /// </summary>
@@ -146,6 +147,19 @@ namespace ConferenceManagement.Application
             bool CheckAddContact = await _mediator.Send(new AddContactCommand(contact.Name, contact.Email, contact.Phone, contact.Message));
             return Ok(CheckAddContact);
         }
+        #endregion
 
+        /// <summary>
+        /// Sachin :- Room Notification
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("RoomNotification")]
+        public async Task<IActionResult> RoomNotification(int userId)
+        {
+            List<BookRoom> AllbookRoomNotification = await _mediator.Send(new RoomNotificationQuery() { UserId = userId });
+            return Ok(AllbookRoomNotification);
+        }
     }
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "W74y1KJCCrEtHydeXRDInEY3WRrdZSX3YQFP897jTRgQ5Mv5t+wEp5GbV3kKWurswGkwidTEfO2YfOVNYzkHqw==",
+  "dgSpecHash": "fZtp3ob5JxJTbFQaaJ0ELQX5LEBPUHroEEiutJVvYzUE8Ud7UnwAJbcMaczOv1SLgD/mW2soi/CyLwDhj8pATg==",
   "success": true,
-  "projectFilePath": "E:\\Conference_Management\\Back_end\\ConferenceManagement\\ConferenceManagement.csproj",
+  "projectFilePath": "E:\\Github Hosting\\Conference-Management-Back-End\\ConferenceManagement\\ConferenceManagement.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ashish.sahu\\.nuget\\packages\\dapper\\2.0.143\\dapper.2.0.143.nupkg.sha512",
     "C:\\Users\\ashish.sahu\\.nuget\\packages\\mediatr\\11.0.0\\mediatr.11.0.0.nupkg.sha512",

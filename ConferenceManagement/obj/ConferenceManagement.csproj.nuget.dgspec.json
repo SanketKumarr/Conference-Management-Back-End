@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Conference_Management\\Back_end\\ConferenceManagement\\ConferenceManagement.csproj": {}
+    "E:\\Github Hosting\\Conference-Management-Back-End\\ConferenceManagement\\ConferenceManagement.csproj": {}
   },
   "projects": {
-    "E:\\Conference_Management\\Back_end\\ConferenceManagement\\ConferenceManagement.csproj": {
+    "E:\\Github Hosting\\Conference-Management-Back-End\\ConferenceManagement\\ConferenceManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Conference_Management\\Back_end\\ConferenceManagement\\ConferenceManagement.csproj",
+        "projectUniqueName": "E:\\Github Hosting\\Conference-Management-Back-End\\ConferenceManagement\\ConferenceManagement.csproj",
         "projectName": "ConferenceManagement",
-        "projectPath": "E:\\Conference_Management\\Back_end\\ConferenceManagement\\ConferenceManagement.csproj",
+        "projectPath": "E:\\Github Hosting\\Conference-Management-Back-End\\ConferenceManagement\\ConferenceManagement.csproj",
         "packagesPath": "C:\\Users\\ashish.sahu\\.nuget\\packages\\",
-        "outputPath": "E:\\Conference_Management\\Back_end\\ConferenceManagement\\obj\\",
+        "outputPath": "E:\\Github Hosting\\Conference-Management-Back-End\\ConferenceManagement\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ashish.sahu\\AppData\\Roaming\\NuGet\\NuGet.Config",

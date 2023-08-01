@@ -263,6 +263,25 @@ namespace ConferenceManagement.Business.UserDataAccess
                 }
                 return false;
             }
+        }
+        #endregion
+
+        #region Room Notification
+        /// <summary>
+        /// Sachin :- Room Notification
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<BookRoom>> RoomNotification(int userId)
+        {
+            using (IDbConnection dbConnection = _dbContext.CreateConnection())
+            {
+                dbConnection.Open();
+                string sQuery = "select * from BookRoom Where UserId = @UserId order by BookingId desc";
+                List<BookRoom> AllBookRooms = (await dbConnection.QueryAsync<BookRoom>(sQuery, new { UserId = userId })).ToList();
+                dbConnection.Close();
+                return AllBookRooms;
+            }
         } 
         #endregion
     }
