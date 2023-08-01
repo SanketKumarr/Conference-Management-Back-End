@@ -3,10 +3,12 @@ using ConferenceManagement.Infrastructure.Commands.UserCommands;
 using ConferenceManagement.Infrastructure.Queries.AdminQueries;
 using ConferenceManagement.Infrastructure.Queries.UserQueries;
 using ConferenceManagement.Model;
+using ConferenceManagement.UserHub;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace ConferenceManagement.Application
 {
@@ -15,10 +17,12 @@ namespace ConferenceManagement.Application
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IHubContext<StatusHub> _hubContext;
 
-        public UserController(IMediator mediator)
+        public UserController(IMediator mediator, IHubContext<StatusHub> hubContext)
         {
             _mediator = mediator;
+            _hubContext = hubContext;
         }
 
         #region Book Room
@@ -37,6 +41,7 @@ namespace ConferenceManagement.Application
                 bookRoom.RequestId = Guid.NewGuid().ToString();
                 bookRoom.Status = "Pending";
                 bool bookStatus = await _mediator.Send(new BookRoomCommand(bookRoom.RequestId, bookRoom.UserId, bookRoom.RoomId, bookRoom.Date, bookRoom.TimeSlot, bookRoom.Status));
+                _hubContext.Clients.All.SendAsync("ReceiveNotification", bookRoom.RequestId, bookRoom.UserId, bookRoom.RoomId, bookRoom.Date, bookRoom.TimeSlot, bookRoom.Status);
                 return Ok(bookStatus);
             }
             catch (DataNotFoundException dnfe)

@@ -2,6 +2,7 @@ using ConferenceManagement.Business.AdminDataAccess;
 using ConferenceManagement.Business.Token;
 using ConferenceManagement.Business.UserDataAccess;
 using ConferenceManagement.Context;
+using ConferenceManagement.UserHub;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -17,6 +18,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSignalR();
 builder.Services.AddSession(option =>
 {
     option.IdleTimeout = TimeSpan.FromMinutes(10);
@@ -60,7 +62,15 @@ void ValidateTokenWithParameters(IServiceCollection services, ConfigurationManag
 
 }
 
-builder.Services.AddCors();
+builder.Services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+{
+    builder
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .WithOrigins("http://localhost:4200")
+        .AllowCredentials()
+        .SetIsOriginAllowed(_ => true);
+}));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -70,7 +80,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(option => option.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+app.UseCors("CorsPolicy");
 app.UseSession();
 app.Use(async (context, next) =>
 {
@@ -82,7 +92,12 @@ app.Use(async (context, next) =>
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<StatusHub>("/statusHub");
 
-app.MapControllers();
+});
 
 app.Run();

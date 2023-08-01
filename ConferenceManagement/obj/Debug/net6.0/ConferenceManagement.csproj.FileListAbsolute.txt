@@ -304,3 +304,4 @@ E:\Github Hosting\Conference-Management-Back-End\ConferenceManagement\obj\Debug\
 E:\Github Hosting\Conference-Management-Back-End\ConferenceManagement\obj\Debug\net6.0\ConferenceManagement.pdb
 E:\Github Hosting\Conference-Management-Back-End\ConferenceManagement\obj\Debug\net6.0\ConferenceManagement.genruntimeconfig.cache
 E:\Github Hosting\Conference-Management-Back-End\ConferenceManagement\obj\Debug\net6.0\ref\ConferenceManagement.dll
+E:\Github Hosting\Conference-Management-Back-End\ConferenceManagement\bin\Debug\net6.0\System.Net.WebSockets.WebSocketProtocol.dll
