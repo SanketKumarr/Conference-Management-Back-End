@@ -61,5 +61,6 @@ namespace ConferenceManagement.Business.AdminDataAccess
 
         //Get All Notification
         Task<List<Notification>> GetAllNotification();
+        Task<ConferenceRoom> GetRoomByName(string roomName);
     }
 }

@@ -107,8 +107,15 @@ namespace ConferenceManagement.Application
         [HttpPost]
         public async Task<IActionResult> AddRoom(ConferenceRoom conferenceRoom)
         {
-            bool ConferenceRoomStatus = await _mediator.Send(new AddRoomCommand(conferenceRoom.RoomName, conferenceRoom.Capacity, conferenceRoom.IsAVRoom, conferenceRoom.Image));
-            return Ok(ConferenceRoomStatus);
+            try
+            {
+                bool ConferenceRoomStatus = await _mediator.Send(new AddRoomCommand(conferenceRoom.RoomName, conferenceRoom.Capacity, conferenceRoom.IsAVRoom, conferenceRoom.Image));
+                return Ok(ConferenceRoomStatus);
+            }
+            catch (RoomIdNotFoundException une)
+            {
+                return StatusCode(500, une.Message);
+            }
         }
         #endregion
 

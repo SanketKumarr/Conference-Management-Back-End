@@ -146,6 +146,25 @@ namespace ConferenceManagement.Business.AdminDataAccess
         }
         #endregion
 
+        #region Get Room By Name
+        /// <summary>
+        /// Mansi :- Get Room By Name
+        /// </summary>
+        /// <param name="roomName"></param>
+        /// <returns></returns>
+        public async Task<ConferenceRoom> GetRoomByName(string roomName)
+        {
+            using (IDbConnection dbConnection = _dbContext.CreateConnection())
+            {
+                dbConnection.Open();
+                string sQuery = "SELECT * FROM ConferenceRoom WHERE RoomName = @RoomName";
+                ConferenceRoom CheckConferenceRoom = await dbConnection.QueryFirstOrDefaultAsync<ConferenceRoom>(sQuery, new { RoomName = roomName });
+                dbConnection.Close();
+                return CheckConferenceRoom;
+            }
+        } 
+        #endregion
+
 
         #region Update Room
         /// <summary>
@@ -288,7 +307,7 @@ namespace ConferenceManagement.Business.AdminDataAccess
                 dbConnection.Close();
                 return AllNotification;
             }
-        } 
+        }
         #endregion
     }
 }

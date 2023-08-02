@@ -62,10 +62,19 @@ namespace ConferenceManagement.Application
         [HttpPost]
         public async Task<IActionResult> AddUser(User user)
         {
-            bool AddUserStatus = await _mediator.Send(new AddUserCommand(user.Name, user.Email, user.Password, user.Designation));
-            return Ok(AddUserStatus);
+            try
+            {
+                bool addUserStatus = await _mediator.Send(new AddUserCommand(user.Name, user.Email, user.Password, user.Designation));
+                return Ok(addUserStatus);
+            }
+            catch (UserFoundException ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
         #endregion
+
+
 
         #region Update User
         /// <summary>
@@ -79,8 +88,15 @@ namespace ConferenceManagement.Application
         [HttpPut]
         public async Task<IActionResult> UpdateUser(int user_Id, User user)
         {
-            bool UpdateEmployeeStatus = await _mediator.Send(new UpdateUserCommand(user_Id, user.Name, user.Email, user.Password, user.Designation));
-            return Ok(UpdateEmployeeStatus);
+            try
+            {
+                bool UpdateEmployeeStatus = await _mediator.Send(new UpdateUserCommand(user_Id, user.Name, user.Email, user.Password, user.Designation));
+                return Ok(UpdateEmployeeStatus);
+            }
+            catch (UserNotFoundException ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
         #endregion
 
@@ -123,6 +139,7 @@ namespace ConferenceManagement.Application
         }
         #endregion
 
+
         #region Cancle Room
         /// <summary>
         /// Mansi :- CancleRoom
@@ -134,10 +151,18 @@ namespace ConferenceManagement.Application
         [Route("CancleRoom")]
         public async Task<IActionResult> CancleRoom(int bookingId, string status)
         {
-            bool CancleRoomStatus = await _mediator.Send(new CancleRoomCommand(bookingId, status));
-            return Ok(CancleRoomStatus);
+            try
+            {
+                bool CancleRoomStatus = await _mediator.Send(new CancleRoomCommand(bookingId, status));
+                return Ok(CancleRoomStatus);
+            }
+            catch (RoomIdNotFoundException ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
         #endregion
+
 
         #region Add Contact
         /// <summary>
@@ -149,11 +174,20 @@ namespace ConferenceManagement.Application
         [Route("AddContact")]
         public async Task<IActionResult> AddContact(Contact contact)
         {
-            bool CheckAddContact = await _mediator.Send(new AddContactCommand(contact.Name, contact.Email, contact.Phone, contact.Message));
-            return Ok(CheckAddContact);
+            try
+            {
+                bool CheckAddContact = await _mediator.Send(new AddContactCommand(contact.Name, contact.Email, contact.Phone, contact.Message));
+                return Ok(CheckAddContact);
+            }
+            catch (UserFoundException ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
         #endregion
 
+
+        #region Room Notification
         /// <summary>
         /// Sachin :- Room Notification
         /// </summary>
@@ -166,5 +200,6 @@ namespace ConferenceManagement.Application
             List<BookRoom> AllbookRoomNotification = await _mediator.Send(new RoomNotificationQuery() { UserId = userId });
             return Ok(AllbookRoomNotification);
         }
+        #endregion
     }
 }

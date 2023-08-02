@@ -1,4 +1,5 @@
 ﻿using ConferenceManagement.Business.UserDataAccess;
+using ConferenceManagement.Exception;
 using ConferenceManagement.Infrastructure.Commands.UserCommands;
 using ConferenceManagement.Model;
 using MediatR;
@@ -19,15 +20,17 @@ namespace ConferenceManagement.Handlers.UserHandlers
             User user = await _userDataAccess.GetUserById(request.User_Id);
             if (user == null)
             {
-                return false;
+                throw new UserNotFoundException($"This User {request.User_Id}  is Not Found ");
             }
+            else
+            {
+                user.Name = request.Name;
+                user.Email = request.Email;
+                user.Password = request.Password;
+                user.Designation = request.Designation;
 
-            user.Name = request.Name;
-            user.Email = request.Email;
-            user.Password = request.Password;
-            user.Designation = request.Designation;
-
-            return await _userDataAccess.UpdateUser(user);
+                return await _userDataAccess.UpdateUser(user);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ConferenceManagement.Business.UserDataAccess;
+using ConferenceManagement.Exception;
 using ConferenceManagement.Infrastructure.Commands.UserCommands;
 using ConferenceManagement.Model;
 using MediatR;
@@ -19,7 +20,7 @@ namespace ConferenceManagement.Handlers.UserHandlers
             BookRoom CheckbookRoom = await _userDataAccess.GetRoomByBookingId(request.BookingId);
             if (CheckbookRoom == null)
             {
-                return false;
+                throw new RoomIdNotFoundException($"This BookingId {request.BookingId}  is not present");
             }
 
             CheckbookRoom.Status = request.Status;

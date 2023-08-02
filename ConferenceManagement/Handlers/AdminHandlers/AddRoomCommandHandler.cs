@@ -1,4 +1,5 @@
 ﻿using ConferenceManagement.Business.AdminDataAccess;
+using ConferenceManagement.Exception;
 using ConferenceManagement.Infrastructure.Commands.AdminCommands;
 using ConferenceManagement.Model;
 using MediatR;
@@ -16,16 +17,24 @@ namespace ConferenceManagement.Handlers.AdminHandlers
 
         public async Task<bool> Handle(AddRoomCommand request, CancellationToken cancellationToken)
         {
-            
-            ConferenceRoom conferenceRoom = new ConferenceRoom()
-            {
-                RoomName = request.RoomName,
-                Capacity = request.Capacity,
-                IsAVRoom = request.IsAVRoom,
-                Image = request.Image,
-            };
+            ConferenceRoom CheckConferenceRoom = await _adminDataAccess.GetRoomByName(request.RoomName);
 
-            return await _adminDataAccess.AddRoom(conferenceRoom);
+            if (CheckConferenceRoom == null)
+            {
+                ConferenceRoom conferenceRoom = new ConferenceRoom()
+                {
+                    RoomName = request.RoomName,
+                    Capacity = request.Capacity,
+                    IsAVRoom = request.IsAVRoom,
+                    Image = request.Image,
+                };
+
+                return await _adminDataAccess.AddRoom(conferenceRoom);
+            }
+            else
+            {
+                throw new RoomIdNotFoundException($"{request.RoomName} Room is Present");
+            }
         }
     }
 }

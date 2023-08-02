@@ -1,4 +1,5 @@
 ﻿using ConferenceManagement.Business.UserDataAccess;
+using ConferenceManagement.Exception;
 using ConferenceManagement.Infrastructure.Commands.UserCommands;
 using ConferenceManagement.Model;
 using MediatR;
@@ -34,8 +35,9 @@ namespace ConferenceManagement.Handlers.UserHandlers
             }
             else
             {
-                return false;
+                throw new UserFoundException($"{request.Email}  is Already Present for this Contact ");
             }
+        
         }
     }
 }
