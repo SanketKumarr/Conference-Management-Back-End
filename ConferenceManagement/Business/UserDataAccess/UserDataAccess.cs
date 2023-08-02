@@ -3,7 +3,11 @@ using ConferenceManagement.Infrastructure.Commands.AdminCommands;
 using ConferenceManagement.Infrastructure.Commands.UserCommands;
 using ConferenceManagement.Model;
 using Dapper;
+using MediatR;
 using System.Data;
+using System.Security;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace ConferenceManagement.Business.UserDataAccess
 {
@@ -63,14 +67,26 @@ namespace ConferenceManagement.Business.UserDataAccess
         /// <returns></returns>
         public async Task<User> LoginUser(LoginUserCommand request)
         {
-            string query = "select * from Users where Email=@Email and Password=@Password";
+            string salt = await GetSaltByEmail(request.Email);
+            string hashedPasssword = HashPassword(request.Password, salt);
+            string query = "select * from Users where Email=@Email and Password=@HashedPasssword";
             using (var connection = _dbContext.CreateConnection())
             {
-                User user = await connection.QueryFirstOrDefaultAsync<User>(query, new { request.Email, request.Password });
+                User user = await connection.QueryFirstOrDefaultAsync<User>(query, new { request.Email, hashedPasssword });
                 return user;
             }
         }
         #endregion
+
+        public async Task<string> GetSaltByEmail(string email)
+        {
+            string query = "select Salt from Users where Email = @Email";
+            using (var connection = _dbContext.CreateConnection())
+            {
+                string salt = await connection.QueryFirstOrDefaultAsync<string>(query, new { Email = email });
+                return salt;
+            }
+        }
 
 
         #region Get User By Id
@@ -104,8 +120,17 @@ namespace ConferenceManagement.Business.UserDataAccess
             using (var dbConnection = _dbContext.CreateConnection())
             {
                 dbConnection.Open();
-                string sQuery = "INSERT INTO Users (Name, Email, Password, Designation) VALUES (@Name, @Email, @Password, @Designation)";
-                int count = await dbConnection.ExecuteAsync(sQuery, user);
+                string salt = GenerateSalt();
+                user.Password = HashPassword(user.Password, salt);
+                string sQuery = "INSERT INTO Users (Name, Email, Password, Designation, Salt) VALUES (@Name, @Email, @Password, @Designation, @Salt)";
+                int count = await dbConnection.ExecuteAsync(sQuery, new
+                {
+                    Name = user.Name,
+                    Email = user.Email,
+                    Password = user.Password,
+                    Designation = user.Designation,
+                    Salt = salt
+                });
                 if (count > 0)
                 {
                     return true;
@@ -131,7 +156,13 @@ namespace ConferenceManagement.Business.UserDataAccess
             {
                 dbConnection.Open();
                 string sQuery = "UPDATE Users SET Name = @Name, Email = @Email, Password = @Password, Designation = @Designation WHERE User_Id = @User_Id";
-                int count = await dbConnection.ExecuteAsync(sQuery, user);
+                int count = await dbConnection.ExecuteAsync(sQuery, new
+                {
+                    Name = user.Name,
+                    Email = user.Email,
+                    Password = user.Password,
+                    Designation = user.Designation
+                });
                 dbConnection.Close();
                 if (count > 0)
                 {
@@ -282,7 +313,35 @@ namespace ConferenceManagement.Business.UserDataAccess
                 dbConnection.Close();
                 return AllBookRooms;
             }
-        } 
+        }
+        #endregion
+
+        #region PasswordHashing
+        public static string GenerateSalt()
+        {
+            byte[] saltBytes = new byte[16];
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(saltBytes);
+            }
+            return Convert.ToBase64String(saltBytes);
+        }
+
+        public static string HashPassword(string password, string salt)
+        {
+            byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+            byte[] saltBytes = Convert.FromBase64String(salt);
+
+            using (var sha256 = SHA256.Create())
+            {
+                byte[] combinedBytes = new byte[passwordBytes.Length + saltBytes.Length];
+                Buffer.BlockCopy(passwordBytes, 0, combinedBytes, 0, passwordBytes.Length);
+                Buffer.BlockCopy(saltBytes, 0, combinedBytes, passwordBytes.Length, saltBytes.Length);
+
+                byte[] hashedBytes = sha256.ComputeHash(combinedBytes);
+                return Convert.ToBase64String(hashedBytes);
+            }
+        }
         #endregion
     }
 }
